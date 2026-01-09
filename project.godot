@@ -11,5 +11,18 @@ config_version=5
 [application]
 
 config/name="TileMapClicker"
+run/main_scene="uid://cibkepm4ph3eh"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=336
+window/size/viewport_height=240
+window/size/window_width_override=1344
+window/size/window_height_override=960
+window/stretch/mode="canvas_items"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
