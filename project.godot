@@ -15,6 +15,10 @@ run/main_scene="uid://cibkepm4ph3eh"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Enum="*res://Scripts/Enum.gd"
+
 [display]
 
 window/size/viewport_width=336
