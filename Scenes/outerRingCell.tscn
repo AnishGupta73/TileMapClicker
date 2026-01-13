@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://hmycjrxk61yv"]
 
-[ext_resource type="Script" uid="uid://bsy1ttewso2c" path="res://Scripts/outer_ring_main_grid.gd" id="1_r3bct"]
+[ext_resource type="Script" uid="uid://bsy1ttewso2c" path="res://Scripts/outer_ring_cell.gd" id="1_r3bct"]
 [ext_resource type="Texture2D" uid="uid://cpidseyr4jgjm" path="res://tilemap_packed.png" id="2_r3bct"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0rhsq"]
@@ -157,7 +157,7 @@ bg_color = Color(1, 1, 1, 0.196078)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iytyl"]
 bg_color = Color(1, 1, 1, 0)
 
-[node name="OuterRingMainGrid" type="Node2D"]
+[node name="OuterRingCell" type="Node2D"]
 script = ExtResource("1_r3bct")
 
 [node name="Image" type="TileMapLayer" parent="."]

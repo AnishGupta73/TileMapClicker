@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=4 uid="uid://cibkepm4ph3eh"]
 
 [ext_resource type="Texture2D" uid="uid://cpidseyr4jgjm" path="res://tilemap_packed.png" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://hmycjrxk61yv" path="res://Scenes/outerRingMainGrid.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://hmycjrxk61yv" path="res://Scenes/outerRingCell.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://ubjpytqaqndb" path="res://Scenes/main_grid.tscn" id="3_8gbba"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0xm2m"]
@@ -155,5 +155,4 @@ tile_set = SubResource("TileSet_h2yge")
 [node name="MainGrid" parent="." instance=ExtResource("3_8gbba")]
 position = Vector2(208, 112)
 grid_size = 9
-middle_tile = Vector2i(6, 5)
 outer_ring_scene = ExtResource("2_0xm2m")
