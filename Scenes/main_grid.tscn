@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=3 uid="uid://ubjpytqaqndb"]
 
 [ext_resource type="Script" uid="uid://bcwmq42gnnnk3" path="res://Scripts/main_grid.gd" id="1_otk0p"]
-[ext_resource type="Texture2D" uid="uid://cpidseyr4jgjm" path="res://tilemap_packed.png" id="2_4xke0"]
+[ext_resource type="Texture2D" uid="uid://0168ant6evth" path="res://Main pieces concept3.png" id="2_otk0p"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0jpdk"]
-texture = ExtResource("2_4xke0")
+texture = ExtResource("2_otk0p")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
