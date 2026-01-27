@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ubjpytqaqndb"]
 
 [ext_resource type="Script" uid="uid://bcwmq42gnnnk3" path="res://Scripts/main_grid.gd" id="1_otk0p"]
-[ext_resource type="Texture2D" uid="uid://0168ant6evth" path="res://Main pieces concept3.png" id="2_otk0p"]
+[ext_resource type="Texture2D" uid="uid://0168ant6evth" path="res://Art/Main pieces concept3.png" id="2_otk0p"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0jpdk"]
 texture = ExtResource("2_otk0p")
@@ -149,4 +149,7 @@ sources/0 = SubResource("TileSetAtlasSource_0jpdk")
 script = ExtResource("1_otk0p")
 
 [node name="Grid" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_au286")
+
+[node name="Board" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_au286")
