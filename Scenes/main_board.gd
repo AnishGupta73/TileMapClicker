@@ -67,11 +67,11 @@ func _ready() -> void:
 	
 	
 	# Temp Board set up
-	main_grid.set_grid_cell(Vector2i(n/2, n/2), pieces["A"])
-	main_grid.set_grid_cell(Vector2i(n/2+1, n/2), pieces["B"])
-	main_grid.set_grid_cell(Vector2i(n/2, n/2+1), pieces["C"])
-	main_grid.set_grid_cell(Vector2i(n/2-1, n/2), pieces["D"])
-	main_grid.set_grid_cell(Vector2i(n/2, n/2-1), pieces["E"])
+	main_grid.set_board_cell(Vector2i(n/2, n/2), pieces["A"])
+	#main_grid.set_board_cell(Vector2i(n/2+1, n/2), pieces["B"])
+	#main_grid.set_board_cell(Vector2i(n/2, n/2+1), pieces["C"])
+	#main_grid.set_board_cell(Vector2i(n/2-1, n/2), pieces["D"])
+	#main_grid.set_board_cell(Vector2i(n/2, n/2-1), pieces["E"])
 	update_pieces_on_board()
 	get_next_pieces_queue()
 	distribute_queue_starting()
@@ -82,6 +82,11 @@ func _on_has_won():
 	await get_tree().create_timer(0.5).timeout
 	get_tree().quit()
 
+func set_input(val:bool):
+	top_row.set_clickability(val)
+	bot_row.set_clickability(val)
+	left_col.set_clickability(val)
+	right_col.set_clickability(val)
 
 func _on_triggered_click(group:int, source_idx:int, drop_direction:Vector2i, image:Vector2i):
 	var location_dropped_at: Vector2i
@@ -100,13 +105,23 @@ func _on_triggered_click(group:int, source_idx:int, drop_direction:Vector2i, ima
 			location_dropped_at = main_grid.dropped_image(Vector2i(main_grid.grid_size, source_idx), drop_direction, image)
 			distribute_next(right_col, source_idx)
 	
-	#print(location_dropped_at)
+	print(location_dropped_at)
 	if location_dropped_at == Vector2i(-1, -1):
+		set_input(false)
 		print("Lose Game")
+		await get_tree().create_timer(0.5).timeout
+		set_input(true)
 		get_tree().quit()
 	
 	#after dropping image need to check if we have 3 of the same cell adjacent
-	main_grid.clean_consecutives(location_dropped_at)
+	var potential_to_remove =  main_grid.get_consecutives_to_clean(location_dropped_at)
+	if (potential_to_remove.size() >= 3):
+		set_input(false)
+		await get_tree().create_timer(0.5).timeout
+		for item in potential_to_remove:
+			main_grid.board.set_cell(item, -1) # clears the cell
+		main_grid.check_win()
+		set_input(true)
 	update_pieces_on_board()
 
 
@@ -124,9 +139,9 @@ func update_pieces_on_board():
 	for i in range(0, n):
 		for j in range(0, n):
 			
-			var cell = main_grid.get_grid_cell(Vector2i(i, j))
+			var cell = main_grid.get_board_cell(Vector2i(i, j))
 			
-			if cell != main_grid.grid_background_tile:
+			if cell != Vector2i(-1, -1):
 				pieces_count[keys[vals.find(cell)]] += 1
 
 
@@ -147,19 +162,19 @@ func distribute_queue_starting():
 	var n = main_grid.grid_size
 	
 	var piece_to_assign = next_piece_queue.pop_front()
-	top_row.cell_new_img = pieces[piece_to_assign]
+	top_row.update_cells_tile_image(pieces[piece_to_assign])
 	top_row.cell_entered(top_row.click_cell_array[n / 2])
 	
 	piece_to_assign = next_piece_queue.pop_front()
-	bot_row.cell_new_img = pieces[piece_to_assign]
+	bot_row.update_cells_tile_image(pieces[piece_to_assign])
 	bot_row.cell_entered(bot_row.click_cell_array[n / 2])
 	
 	piece_to_assign = next_piece_queue.pop_front()
-	left_col.cell_new_img = pieces[piece_to_assign]
+	left_col.update_cells_tile_image(pieces[piece_to_assign])
 	left_col.cell_entered(left_col.click_cell_array[n / 2])
 	
 	piece_to_assign = next_piece_queue.pop_front()
-	right_col.cell_new_img = pieces[piece_to_assign]
+	right_col.update_cells_tile_image(pieces[piece_to_assign])
 	right_col.cell_entered(right_col.click_cell_array[n / 2])
 	
 	
@@ -171,8 +186,8 @@ func distribute_next(next_click_struct, source_idx):
 	var vals = pieces.values()
 	var keys = pieces.keys()
 	
-	next_click_struct.cell_new_img = pieces[keys[vals.find(piece_to_assign_struct)]]
-	next_click_struct.cell_entered(next_click_struct.click_cell_array[source_idx])
+	next_click_struct.update_cells_tile_image(pieces[keys[vals.find(piece_to_assign_struct)]])
+	#next_click_struct.cell_entered(next_click_struct.click_cell_array[source_idx]) -> should happen after disappearing timer in triggered click
 	
 	if next_piece_queue.size() <= 0:
 		get_next_pieces_queue()

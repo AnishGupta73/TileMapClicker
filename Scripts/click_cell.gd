@@ -1,33 +1,55 @@
 extends Node2D
 
 var button: Button
-var image: TileMapLayer
+var background_image: TileMapLayer
+var tile_image: TileMapLayer
+
+var can_click: bool
 
 signal mouse_entered_cell(source: Node)
+signal mouse_exited_cell(source: Node)
 signal mouse_clicked_cell(source: Node)
-
-signal test
 
 
 func _ready() -> void:
 	button = $Button
-	image = $Image
+	background_image = $BackgroundImage
+	tile_image = $TileImage
+	
+	set_background_image(Vector2i(5, 0))
+	set_clickability(true)
 
 
-func get_image():
-	image.get_cell_atlas_coords(Vector2i(0, 0))
+func get_background_image():
+	background_image.get_cell_atlas_coords(Vector2i(0, 0))
 
-func set_image(coords:Vector2i):
-	image.set_cell(Vector2i(0, 0), 0, coords)
+func set_background_image(coords:Vector2i):
+	background_image.set_cell(Vector2i(0, 0), 0, coords)
 
+func get_tile_image():
+	background_image.get_cell_atlas_coords(Vector2i(0, 0))
+	
+func set_tile_image(coords:Vector2i):
+	tile_image.set_cell(Vector2i(0, 0), 0, coords)
+
+
+func set_tile_visibility(val:bool):
+	tile_image.visible = val
+
+func set_clickability(val:bool):
+	can_click = val
+	#button.visible = val
 
 func _on_button_mouse_entered() -> void:
-	mouse_entered_cell.emit(self)
+	if (can_click):
+		mouse_entered_cell.emit(self)
 
 
 func _on_button_mouse_exited() -> void:
-	pass
+	if (can_click):
+		mouse_exited_cell.emit(self)
 
 
 func _on_button_pressed() -> void:
-	mouse_clicked_cell.emit(self)
+	if (can_click):
+		mouse_clicked_cell.emit(self)

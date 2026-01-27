@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://hmycjrxk61yv"]
+[gd_scene load_steps=14 format=3 uid="uid://hmycjrxk61yv"]
 
 [ext_resource type="Script" uid="uid://bsy1ttewso2c" path="res://Scripts/click_cell.gd" id="1_r3bct"]
-[ext_resource type="Texture2D" uid="uid://0168ant6evth" path="res://Main pieces concept3.png" id="2_k5ylj"]
+[ext_resource type="Texture2D" uid="uid://0168ant6evth" path="res://Art/Main pieces concept3.png" id="2_k5ylj"]
+[ext_resource type="Texture2D" uid="uid://blgfpp8ropmw0" path="res://Art/purple flipbook.png" id="3_vipgy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0rhsq"]
 texture = ExtResource("2_k5ylj")
@@ -145,6 +146,62 @@ texture = ExtResource("2_k5ylj")
 [sub_resource type="TileSet" id="TileSet_83sv8"]
 sources/0 = SubResource("TileSetAtlasSource_0rhsq")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_0j00e"]
+atlas = ExtResource("3_vipgy")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3lc10"]
+atlas = ExtResource("3_vipgy")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7fn7c"]
+atlas = ExtResource("3_vipgy")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ns4nc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j00e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3lc10")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7fn7c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3lc10")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j00e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j00e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j00e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j00e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j00e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j00e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j00e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j00e")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wncdr"]
 bg_color = Color(1, 1, 1, 0)
 
@@ -160,7 +217,18 @@ bg_color = Color(1, 1, 1, 0)
 [node name="ClickCell" type="Node2D"]
 script = ExtResource("1_r3bct")
 
-[node name="Image" type="TileMapLayer" parent="."]
+[node name="BackgroundImage" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_83sv8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BackgroundImage"]
+visible = false
+position = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_ns4nc")
+autoplay = "default"
+frame_progress = 0.536603
+
+[node name="TileImage" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_83sv8")
 
 [node name="Button" type="Button" parent="."]
