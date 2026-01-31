@@ -1,11 +1,6 @@
 extends Node2D
 
-@export var grid_size: int
-@export var outer_ring_scene: PackedScene
-var top_row = []
-var bot_row = []
-var left_col = []
-var right_col = []
+var n: int
 var grid: TileMapLayer
 var board: TileMapLayer
 
@@ -18,15 +13,12 @@ signal has_won
 func _ready() -> void:
 	grid = $Grid
 	board = $Board
-	#generate_grid_simple(grid_size, grid_background_tile)
-	#set_up_board()
 
 
 func generate_grid_simple(n:int, tile:Vector2i):
 	for i in range(0, n):
 		for j in range(0, n):
 			grid.set_cell(Vector2i(i, j), 0, tile)
-			#board.set_cell(Vector2i(i, j), 0, tile)
 
 
 func get_grid_cell(location:Vector2i):
@@ -43,7 +35,7 @@ func get_board_cell(location:Vector2i):
 
 
 func set_board_cell(grid_location:Vector2i, new_image:Vector2i):
-	if (grid_location[0] >= grid_size or grid_location[1] >= grid_size):
+	if (grid_location[0] >= n or grid_location[1] >= n):
 		return
 	board.set_cell(grid_location, 0, new_image)
 
@@ -56,8 +48,7 @@ func dropped_image(index:Vector2i, direction:Vector2i, image_dropped: Vector2i):
 		return Vector2i(-1, -1)
 		
 	
-	
-	for i in range(grid_size):
+	for i in range(n):
 		var cell = get_board_cell(current_cell_location)
 		if (cell != Vector2i(-1, -1)):
 			#collision so break as we have found the cell location
@@ -103,8 +94,8 @@ func find_adjacent(start_location:Vector2i):
 	return toReturn
 
 func check_win():
-	for i in range(0, grid_size):
-		for j in range(0, grid_size):
+	for i in range(0, n):
+		for j in range(0, n):
 			if (get_board_cell(Vector2i(i, j)) != Vector2i(-1, -1)):
 				return
 	has_won.emit()
