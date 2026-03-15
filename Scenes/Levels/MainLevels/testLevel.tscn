@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bklqtl2jg14ia"]
+
+[ext_resource type="PackedScene" uid="uid://cibkepm4ph3eh" path="res://Scenes/Levels/MainLevels/main_level.tscn" id="1_f4mc4"]
+
+[node name="Main" instance=ExtResource("1_f4mc4")]
+main_grid_size = Vector2i(11, 11)
+main_grid_location = Vector2i(12, 7)
+starting_locations = {
+"A": [Vector2i(4, 4)],
+"B": [],
+"C": [],
+"D": [],
+"E": []
+}

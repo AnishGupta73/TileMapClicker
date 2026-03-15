@@ -1,0 +1,163 @@
+[gd_scene load_steps=13 format=4 uid="uid://6snnqhfgpymb"]
+
+[ext_resource type="PackedScene" uid="uid://cibkepm4ph3eh" path="res://Scenes/main_level.tscn" id="1_jmr45"]
+[ext_resource type="Script" uid="uid://xrlqvjblye4r" path="res://Scripts/tutorial_level.gd" id="2_o8ev7"]
+[ext_resource type="FontFile" uid="uid://d3usbugkejteb" path="res://Assets/fonts/PixelOperator8.ttf" id="3_k8hhx"]
+[ext_resource type="Texture2D" uid="uid://bdlop5pesared" path="res://Assets/Art/tutorial arrows.png" id="4_7t4b2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbrl8"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8nu6"]
+atlas = ExtResource("4_7t4b2")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_addnb"]
+atlas = ExtResource("4_7t4b2")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3jdy6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8nu6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_addnb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8nu6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8nu6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8nu6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7t4b2"]
+atlas = ExtResource("4_7t4b2")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3jdy6"]
+atlas = ExtResource("4_7t4b2")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_105ll"]
+atlas = ExtResource("4_7t4b2")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ptwdd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7t4b2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3jdy6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_105ll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_105ll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_105ll")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Main" instance=ExtResource("1_jmr45")]
+script = ExtResource("2_o8ev7")
+main_grid_size = 3
+click_struct_map = {
+"E": true,
+"N": true,
+"S": true,
+"W": true
+}
+
+[node name="MainTileMap" parent="." index="0"]
+tile_map_data = PackedByteArray("AAADAAYAAAAGAAAAAAADAAcAAAAGAAEAAAADAAgAAAAGAAIAAAAEAAYAAAAHAAAAAAAEAAcAAAAFAAEAAAAEAAgAAAAHAAIAAAAFAAYAAAAIAAAAAAAFAAcAAAAIAAEAAAAFAAgAAAAIAAIAAAAOAAcAAAAFAAAAAAANAAYAAAAFAAAAAAAOAAYAAAAFAAAAAAAOAAgAAAAFAAAAAAANAAgAAAAFAAAAAAANAAcAAAAFAAAAAAANAAUAAAAFAAEAAAAOAAUAAAAFAAEAAAAMAAYAAAAFAAAAAAAMAAcAAAAFAAAAAAAMAAgAAAAFAAAAAAAMAAUAAAAFAAEAAAA=")
+
+[node name="LevelIndicator" parent="Control" index="0"]
+text = "Tutorial 1"
+
+[node name="HoverAndDropText" type="TextEdit" parent="Control" index="1"]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 16.0
+offset_right = 320.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_k8hhx")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_qbrl8")
+theme_override_styles/focus = SubResource("StyleBoxFlat_qbrl8")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_qbrl8")
+text = "Click on a cell at the top to drop a piece in that column"
+editable = false
+wrap_mode = 1
+
+[node name="NextPieceText" type="TextEdit" parent="Control" index="2"]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 160.0
+offset_right = 142.0
+offset_bottom = 240.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_k8hhx")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_qbrl8")
+theme_override_styles/focus = SubResource("StyleBoxFlat_qbrl8")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_qbrl8")
+text = "The next piece will be shown here"
+editable = false
+wrap_mode = 1
+autowrap_mode = 2
+
+[node name="GoalText" type="TextEdit" parent="Control" index="3"]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 144.0
+offset_right = 320.0
+offset_bottom = 240.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_k8hhx")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_qbrl8")
+theme_override_styles/focus = SubResource("StyleBoxFlat_qbrl8")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_qbrl8")
+text = "3 or more of the same piece together will be removed
+
+Empty the board to win"
+editable = false
+wrap_mode = 1
+autowrap_mode = 2
+
+[node name="Down" type="AnimatedSprite2D" parent="." index="3"]
+position = Vector2(200, 72)
+sprite_frames = SubResource("SpriteFrames_3jdy6")
+autoplay = "default"
+
+[node name="Down2" type="AnimatedSprite2D" parent="." index="4"]
+position = Vector2(216, 72)
+sprite_frames = SubResource("SpriteFrames_3jdy6")
+autoplay = "default"
+
+[node name="Down3" type="AnimatedSprite2D" parent="." index="5"]
+position = Vector2(232, 72)
+sprite_frames = SubResource("SpriteFrames_3jdy6")
+autoplay = "default"
+
+[node name="Up" type="AnimatedSprite2D" parent="." index="6"]
+position = Vector2(72, 152)
+sprite_frames = SubResource("SpriteFrames_ptwdd")
+autoplay = "default"

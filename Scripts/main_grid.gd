@@ -1,31 +1,47 @@
 extends Node2D
 
-var n: int
-var grid: TileMapLayer
+var x_size: int
+var y_size: int
+
+# Grid is layer of the background
+# Board is the layer of the pieces
+var background: TileMapLayer
 var board: TileMapLayer
 
-var grid_background_tile:Vector2i = Vector2i(5, 0)
+var grid_background_tile:Vector2i = Vector2i(1, 3)
 
 signal has_won
 
 
-
 func _ready() -> void:
-	grid = $Grid
+	background = $Background
 	board = $Board
 
 
-func generate_grid_simple(n:int, tile:Vector2i):
-	for i in range(0, n):
-		for j in range(0, n):
-			grid.set_cell(Vector2i(i, j), 0, tile)
+
+# Generate Gird functions
+func generate_grid_square(size:int, tile:Vector2i = grid_background_tile):
+	x_size = size
+	y_size = size
+	for i in range(0, size):
+		for j in range(0, size):
+			background.set_cell(Vector2i(i, j), 0, tile)
+
+func generate_grid(size_x:int, size_y:int, tile:Vector2i = grid_background_tile):
+	x_size = size_x
+	y_size = size_y
+	for i in range(0, size_x):
+		for j in range(0, size_y):
+			background.set_cell(Vector2i(i, j), 0, tile)
 
 
+
+# Getters and Setters for the Grid and Board
 func get_grid_cell(location:Vector2i):
-	var id = grid.get_cell_source_id(location)
+	var id = background.get_cell_source_id(location)
 	if (id == -1):
 		return Vector2i(-1, -1)
-	return grid.get_cell_atlas_coords(location)
+	return background.get_cell_atlas_coords(location)
 	
 func get_board_cell(location:Vector2i):
 	var id = board.get_cell_source_id(location)
@@ -33,11 +49,11 @@ func get_board_cell(location:Vector2i):
 		return Vector2i(-1, -1)
 	return board.get_cell_atlas_coords(location)
 
-
 func set_board_cell(grid_location:Vector2i, new_image:Vector2i):
-	if (grid_location[0] >= n or grid_location[1] >= n):
+	if (grid_location[0] >= x_size or grid_location[1] >= y_size):
 		return
 	board.set_cell(grid_location, 0, new_image)
+
 
 
 func dropped_image(index:Vector2i, direction:Vector2i, image_dropped: Vector2i):
@@ -47,8 +63,15 @@ func dropped_image(index:Vector2i, direction:Vector2i, image_dropped: Vector2i):
 	if (get_board_cell(current_cell_location) != Vector2i(-1, -1)):
 		return Vector2i(-1, -1)
 		
+	# x_size for vertical scanning
+	# y_size for horizontal scanning
+	var length = 0
+	if direction[0] == 0:
+		length = y_size
+	else:
+		length = x_size
 	
-	for i in range(n):
+	for i in range(length):
 		var cell = get_board_cell(current_cell_location)
 		if (cell != Vector2i(-1, -1)):
 			#collision so break as we have found the cell location
@@ -59,7 +82,7 @@ func dropped_image(index:Vector2i, direction:Vector2i, image_dropped: Vector2i):
 	set_board_cell(current_cell_location - direction, image_dropped)
 	return current_cell_location - direction
 	
-
+# Returns the locations around the starting location that have the same piece as it
 func get_consecutives_to_clean(start_location:Vector2i):
 	# Check for 3 in a row and only need to check for the image of the placed piece and
 	# its immediate neighbors.
@@ -78,7 +101,7 @@ func get_consecutives_to_clean(start_location:Vector2i):
 	
 	return potential_to_remove
 
-## returns a list of cells that are adjacent to start location that have the same image as start_location
+## Helper that returns a list of cells that are adjacent to start location that have the same image as it
 func find_adjacent(start_location:Vector2i):
 	var toReturn = []
 	var adjacent = [
@@ -93,9 +116,11 @@ func find_adjacent(start_location:Vector2i):
 	
 	return toReturn
 
+
+# Checks if the board is empty. Emits the has won signal if so
 func check_win():
-	for i in range(0, n):
-		for j in range(0, n):
+	for i in range(0, x_size):
+		for j in range(0, y_size):
 			if (get_board_cell(Vector2i(i, j)) != Vector2i(-1, -1)):
 				return
 	has_won.emit()

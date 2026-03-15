@@ -1,50 +1,61 @@
 extends "res://Scripts/main_level.gd"
 
 
+var script_part: int = 0
+var text_boxes = []
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	main_grid = main_grid_inst.instantiate()
-	add_child(main_grid)
-	main_grid.n = main_grid_size
-	main_grid.generate_grid_simple(main_grid_size, main_grid.grid_background_tile)
-	main_grid.position = Vector2(16*(main_grid_location - Vector2i(main_grid_size/2, main_grid_size/2)))
-	main_grid.has_won.connect(_on_has_won)
-	
-	main_tile_map = $MainTileMap
+	super()
+	#main_grid = main_grid_inst.instantiate()
+	#add_child(main_grid)
+	#main_grid.n = main_grid_size
+	#main_grid.generate_grid_simple(main_grid_size, main_grid.grid_background_tile)
+	#main_grid.position = Vector2(16*(main_grid_location - Vector2i(main_grid_size/2, main_grid_size/2)))
+	#main_grid.has_won.connect(_on_has_won)
+	#
+	#main_tile_map = $MainTileMap
+	text_boxes = [$Control/HoverAndDropText, $Control/NextPieceText, $Control/GoalText]
 	
 	$Control/LevelIndicator.text = "Tutorial 1"
 	
 	#Just the top one
-	top_row = click_struct_inst.instantiate()
-	add_child(top_row)
-	top_row.generate_Struct(main_grid_size, 0, Vector2i(1, 0), Vector2i(0, 1))
-	top_row.position = main_grid.position + 16*Vector2(0, -1)
-	top_row.triggered_click.connect(_on_triggered_click)
+	set_up_click_structs()
 	
 	set_up_pieces()
 	set_up_board()
-	update_pieces_on_board()
+	update_pieces_count_on_board()
 	
 	get_next_pieces_queue()
 	distribute_queue_starting()
-
-
-func set_up_board():
-	var n = main_grid_size
-	main_grid.set_board_cell(Vector2i(n/2-1, n/2+1), current_pieces[current_pieces.keys()[0]])
-	main_grid.set_board_cell(Vector2i(n/2+1, n/2+1), current_pieces[current_pieces.keys()[1]])
-
-
-func get_next_pieces_queue():
-	next_piece_queue = ["A", "B", "A", "B"]
-
-
-func distribute_queue_starting():
-	var n = main_grid_size
 	
-	var piece_to_assign = next_piece_queue.pop_front()
-	top_row.update_cells_tile_image(current_pieces[piece_to_assign])
-	top_row.cell_entered(top_row.click_cell_array[n / 2])
+	script_set_up()
+
+
+func script_set_up():
+	script_part = 0
+	text_boxes[1].visible = false
+	text_boxes[2].visible = false
+	$Up.visible = false
+
+func next_script():
+	text_boxes[script_part % text_boxes.size()].visible = false
+	script_part += 1
+	text_boxes[script_part % text_boxes.size()].visible = true
 	
-	piece_to_assign = next_piece_queue.pop_front()
-	main_tile_map.set_cell(next_piece_indicator_location, 0, current_pieces[piece_to_assign])
+func _on_triggered_click(group:String, source_idx:int, drop_direction:Vector2i, image:Vector2i):
+	super(group, source_idx, drop_direction, image)
+	
+	if (script_part == 0):
+		$Down.visible = false
+		$Down2.visible = false
+		$Down3.visible = false
+		
+		$Up.visible = true
+	elif (script_part == 1):
+		$Up.visible = false
+	
+	script_part += 1
+	if (script_part <= 2):
+		text_boxes[script_part].visible = true
+	

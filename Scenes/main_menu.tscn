@@ -1,9 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://ikpo43twgwle"]
+[gd_scene load_steps=7 format=3 uid="uid://ikpo43twgwle"]
 
 [ext_resource type="Script" uid="uid://dgx50sm4nwtlx" path="res://Scripts/main_menu.gd" id="1_1ehe0"]
 [ext_resource type="FontFile" uid="uid://d3usbugkejteb" path="res://Assets/fonts/PixelOperator8.ttf" id="1_28flt"]
-[ext_resource type="PackedScene" uid="uid://cibkepm4ph3eh" path="res://Scenes/main_level.tscn" id="2_ce3w2"]
-[ext_resource type="PackedScene" uid="uid://6snnqhfgpymb" path="res://Scenes/tutorial_level.tscn" id="3_ce3w2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_28flt"]
 
@@ -39,8 +37,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1ehe0")
-start_scene = ExtResource("2_ce3w2")
-tutorial_scene = ExtResource("3_ce3w2")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -49,9 +45,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -78.0
+offset_left = -102.0
 offset_top = -22.0
-offset_right = 78.0
+offset_right = 102.0
 offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -70,7 +66,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_28flt")
 theme_override_styles/hover = SubResource("StyleBoxFlat_28flt")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1ehe0")
 theme_override_styles/normal = SubResource("StyleBoxFlat_48xlc")
-text = "Start"
+text = "Level Select"
 
 [node name="TutorialButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2

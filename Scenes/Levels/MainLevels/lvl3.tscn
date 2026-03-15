@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjmcfvhxnlutb"]
+
+[ext_resource type="PackedScene" uid="uid://cibkepm4ph3eh" path="res://Scenes/Levels/MainLevels/main_level.tscn" id="1_tleta"]
+
+[node name="Main" instance=ExtResource("1_tleta")]
+level_number = 3
+main_grid_size = Vector2i(5, 5)
+click_struct_map = {
+"E": true,
+"N": true,
+"S": false,
+"W": true
+}
+starting_locations = {
+"A": [Vector2i(1, 2)],
+"B": [Vector2i(3, 2)],
+"C": [Vector2i(2, 2)],
+"D": [],
+"E": []
+}
+piece_inclusion_map = {
+"A": true,
+"B": true,
+"C": true,
+"D": false,
+"E": false
+}
+scene_to_change_upon_win = "res://Scenes/Levels/MainLevels/lvl4.tscn"

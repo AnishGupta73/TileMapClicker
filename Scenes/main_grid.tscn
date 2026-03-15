@@ -148,7 +148,7 @@ sources/0 = SubResource("TileSetAtlasSource_0jpdk")
 [node name="MainGrid" type="Node2D"]
 script = ExtResource("1_otk0p")
 
-[node name="Grid" type="TileMapLayer" parent="."]
+[node name="Background" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_au286")
 
 [node name="Board" type="TileMapLayer" parent="."]
