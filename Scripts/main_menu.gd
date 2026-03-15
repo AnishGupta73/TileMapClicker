@@ -1,7 +1,7 @@
 extends Control
 
-@export var start_scene: PackedScene
-@export var tutorial_scene: PackedScene
+@export var start_scene: PackedScene = preload("res://Scenes/level_select.tscn")
+@export var tutorial_scene: PackedScene = preload("res://Scenes/Levels/TutorialLevels/tutorial_level.tscn")
 
 
 func _on_start_button_pressed() -> void:

@@ -1,26 +1,38 @@
 extends Node2D
 
 var click_cell_inst : PackedScene = preload("res://Scenes/click_cell.tscn")
-var group: int
+var group: String
 var drop_dir: Vector2i
 var click_cell_array: Array
+var struct_size: int
 
-var cell_background_img: Vector2i = Vector2i(5, 1)
-var cell_tile_image: Vector2i = Vector2i(3, 0)
+var cell_background_img: Vector2i = Vector2i(1, 2)
+var cell_tile_image: Vector2i = Vector2i(1, 0)
 
-signal triggered_click(group:int, source_idx:int, drop_direction:Vector2i, image:Vector2i)
+signal triggered_click(group:String, source_idx:int, drop_direction:Vector2i, image:Vector2i)
 
 
-func generate_Struct(size:int, group_to_set:int, growth_dir: Vector2i, drop_dir_to_set: Vector2i):
+func generate_Struct(size:int, group_to_set:String, growth_dir: Vector2i, drop_dir_to_set: Vector2i):
 	group = group_to_set
+	match group:
+		"N":
+			cell_background_img = Vector2i(1, 2)
+		"S":
+			cell_background_img = Vector2i(1, 4)
+		"E":
+			cell_background_img = Vector2i(2, 3)
+		"W":
+			cell_background_img = Vector2i(0, 3)
 	drop_dir = drop_dir_to_set
 	var instance
+	
+	struct_size = size
 	for i in range(size):
 		instance = grab_instance()
 		instance.position = Vector2(Vector2i(0, 0) + 16 * i * growth_dir)
 		click_cell_array.append(instance)
 	
-	update_cells_tile_image(cell_tile_image)
+	update_cells_tile_image(cell_tile_image, "")
 
 
 
@@ -34,10 +46,12 @@ func grab_instance():
 	return instance
 
 
-func update_cells_tile_image(coords:Vector2i):
+func update_cells_tile_image(coords:Vector2i, piece_type:String):
 	cell_tile_image = coords
 	for cell in click_cell_array:
-		cell.set_tile_image(coords)
+		var animation_name = piece_type + "_" + group
+		cell.set_tile_image(coords, animation_name)
+		
 
 
 func set_clickability(val:bool):

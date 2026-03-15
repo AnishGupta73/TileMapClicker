@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://brvojp5r72070"]
+
+[ext_resource type="PackedScene" uid="uid://cibkepm4ph3eh" path="res://Scenes/Levels/MainLevels/main_level.tscn" id="1_55ff1"]
+
+[node name="Main" instance=ExtResource("1_55ff1")]
+level_number = 2
+main_grid_size = Vector2i(5, 5)
+click_struct_map = {
+"E": false,
+"N": true,
+"S": false,
+"W": false
+}
+starting_locations = {
+"C": [Vector2i(2, 4)],
+"D": [Vector2i(2, 2)],
+"E": []
+}
+piece_inclusion_map = {
+"A": false,
+"B": false,
+"C": true,
+"D": true,
+"E": false
+}
+scene_to_change_upon_win = "res://Scenes/Levels/MainLevels/lvl3.tscn"
+
+[node name="LevelIndicator" parent="Control" index="0"]
+text = "Level 2"

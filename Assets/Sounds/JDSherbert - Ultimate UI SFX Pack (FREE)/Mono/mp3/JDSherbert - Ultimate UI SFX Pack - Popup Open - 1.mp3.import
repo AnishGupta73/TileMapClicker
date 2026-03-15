@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dj6d3nc5kjqs4"
+path="res://.godot/imported/JDSherbert - Ultimate UI SFX Pack - Popup Open - 1.mp3-379f24c5ff14e828ed5c8c1935cb2bb3.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/JDSherbert - Ultimate UI SFX Pack (FREE)/Mono/mp3/JDSherbert - Ultimate UI SFX Pack - Popup Open - 1.mp3"
+dest_files=["res://.godot/imported/JDSherbert - Ultimate UI SFX Pack - Popup Open - 1.mp3-379f24c5ff14e828ed5c8c1935cb2bb3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
