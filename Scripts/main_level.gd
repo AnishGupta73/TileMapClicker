@@ -37,6 +37,11 @@ var piece_grid_inst : PackedScene = preload("res://Scenes/piece_grid.tscn")
 	"D": true,
 	"E": true,
 }
+
+@export var starting_pieces_queue : Array[String]
+
+@export var starting_piece_queue_looped : bool = false
+
 @export var num_next_pieces_indicator: int = 1
 
 var current_pieces = {}
@@ -60,15 +65,8 @@ var next_piece_queue: Array
 var reset_sound : AudioStreamPlayer2D
 var next_sound : AudioStreamPlayer2D
 
+
 func _ready() -> void:
-	# Generate the main grid
-	main_grid = main_grid_inst.instantiate()
-	add_child(main_grid)
-	main_grid.generate_grid(main_grid_size[0], main_grid_size[1])
-	main_grid.position = Vector2(16*(main_grid_center - Vector2i(main_grid_size[0]/2, main_grid_size[1]/2)))
-	main_grid.grid_global_location = Vector2i(main_grid.position / 16)
-	main_grid.has_won.connect(_on_has_won)
-	
 	main_tile_map = $MainTileMap
 	
 	$Control/LevelIndicator.text = "Level " + str(level_number)
@@ -76,16 +74,33 @@ func _ready() -> void:
 	reset_sound = $ResetSound
 	next_sound = $NextSound
 	
+	
+	# Generate the main grid
+	set_up_main_grid()
+	
 	# Generate the Click Structs around the grid
 	set_up_click_structs()
 	
-	# Set up first pieces, then the board, then counts them properly
+	# Set up first pieces to be included, then the starting pieces on the board, then count them properly
 	set_up_pieces()
 	set_up_board()
 	update_pieces_count_on_board()
 	
+	# Create the queue for the stream of next pieces, distribute them to the click structs
 	get_next_pieces_queue()
 	distribute_queue_starting()
+
+
+
+func set_up_main_grid():
+	main_grid = main_grid_inst.instantiate()
+	add_child(main_grid)
+	main_grid.generate_grid(main_grid_size[0], main_grid_size[1])
+	main_grid.position = Vector2(16*(main_grid_center - Vector2i(main_grid_size[0]/2, main_grid_size[1]/2)))
+	main_grid.grid_global_location = Vector2i(main_grid.position / 16)
+	main_grid.has_won.connect(_on_has_won)
+
+
 
 func set_up_click_structs():
 	for i in range(click_structs_label.size()):
@@ -95,16 +110,13 @@ func set_up_click_structs():
 		add_child(inst)
 		
 		var parts = click_struct_name.split("_")
-		inst.generate_Struct(
-			parts[0],
-			int(parts[1])
-		)
+		inst.generate_Struct(parts[0], int(parts[1]))
 		inst.position = 16*click_struct_loc
 		
 		inst.triggered_click.connect(_on_triggered_click)
 		
 		click_struct_array.append(inst)
-		
+
 
 func set_up_pieces():	
 	for key in piece_inclusion_map.keys():
@@ -121,46 +133,6 @@ func set_up_board():
 				main_grid.set_board_cell(loc, current_pieces[key])
 
 
-func _on_has_won():
-	next_sound.play(0.0)
-	await get_tree().create_timer(0.5).timeout
-	get_tree().change_scene_to_file(scene_to_change_upon_win)
-
-
-func set_input(val:bool):
-	for c_s in click_struct_array:
-		c_s.set_clickability(val)
-
-func _on_triggered_click(source_struct : ClickStruct, source_idx:int, drop_direction:Vector2i, image:Vector2i):
-	var location_dropped_at = main_grid.dropped_image(Vector2i(source_struct.position / 16) + (source_idx * source_struct.growth_dir), drop_direction, image)
-	
-	distribute_next(source_struct)
-	
-	var trigger_reload = false
-	if location_dropped_at == Vector2i(-1, -1):
-		trigger_reload = true
-		
-	#after dropping image need to check if we have 3 of the same cell adjacent
-	remove_adjacents(location_dropped_at)
-	
-	update_pieces_count_on_board()
-	
-	if (trigger_reload):
-		reset_sound.play(0.0)
-		await get_tree().create_timer(0.6).timeout
-		get_tree().reload_current_scene()
-		
-
-func remove_adjacents(location_dropped_at: Vector2i):
-	var potential_to_remove =  main_grid.get_consecutives_to_clean(location_dropped_at)
-	if (potential_to_remove.size() >= 3):
-		
-		#timer so we can play some animations
-		await get_tree().create_timer(0.5).timeout
-		
-		for item in potential_to_remove:
-			main_grid.board.set_cell(item, -1) # clears the cell
-		main_grid.check_win()
 
 func update_pieces_count_on_board():
 	var x_size = main_grid_size[0]
@@ -184,30 +156,51 @@ func update_pieces_count_on_board():
 				pieces_count[keys[vals.find(cell)]] += 1
 
 
+var count : int = 0
 func get_next_pieces_queue():
-	var next_pieces_unshuffled = []
+	var next_pieces_shuffled = []
 	# for each key, find its val, engineer its count, and add that many into an array
-	var keys = current_pieces.keys()
-	for key in keys:
+	for key in current_pieces.keys():
 		var val = pieces_count[key]
 		var count_to_add = 6 - (val%3)
 		for i in range(count_to_add):
-			next_pieces_unshuffled.append(key)
+			next_pieces_shuffled.append(key)
+	next_pieces_shuffled.shuffle()
 	
-	next_pieces_unshuffled.shuffle()
-	next_piece_queue = next_pieces_unshuffled
+	
+	if (starting_pieces_queue.is_empty()):
+		next_piece_queue += next_pieces_shuffled
+	else:
+		if starting_piece_queue_looped:# looped and full: add starting only
+			next_piece_queue += starting_pieces_queue
+		else: # not looped and full: shuffle after once providing starting
+			if (count == 0):
+				next_piece_queue += starting_pieces_queue + next_pieces_shuffled
+				count += 1
+			else:
+				next_piece_queue = next_pieces_shuffled
+
+
 
 func distribute_queue_starting():
 	var piece_to_assign
-	
+	if next_piece_queue.size() <= 0:
+		get_next_pieces_queue()
+		
 	for click_struct in click_struct_array:
 		piece_to_assign = next_piece_queue.pop_front()
 		click_struct.update_cells_tile_image(current_pieces[piece_to_assign], piece_to_assign)
 		click_struct.cell_entered(click_struct.click_cell_array[(click_struct.struct_size)/2])
 	
-	piece_to_assign = next_piece_queue.pop_front()
-	main_tile_map.set_cell(next_piece_indicator_location, 0, current_pieces[piece_to_assign])
+	if next_piece_queue.size() <= 0:
+		get_next_pieces_queue()
 	
+	piece_to_assign = next_piece_queue.pop_front()
+	
+	main_tile_map.set_cell(next_piece_indicator_location, 0, current_pieces[piece_to_assign])
+
+
+
 func distribute_next(next_click_struct):
 	var piece_to_assign_struct = main_tile_map.get_cell_atlas_coords(next_piece_indicator_location)
 	var vals = current_pieces.values()
@@ -221,3 +214,50 @@ func distribute_next(next_click_struct):
 	
 	piece_to_assign = next_piece_queue.pop_front()
 	main_tile_map.set_cell(next_piece_indicator_location, 0, current_pieces[piece_to_assign])
+
+
+
+func _on_has_won():
+	next_sound.play(0.0)
+	await get_tree().create_timer(0.5).timeout
+	get_tree().change_scene_to_file(scene_to_change_upon_win)
+
+
+
+func _on_triggered_click(source_struct : ClickStruct, source_idx:int, drop_direction:Vector2i, image:Vector2i):
+	var location_dropped_at = main_grid.dropped_image(Vector2i(source_struct.position / 16) + (source_idx * source_struct.growth_dir), drop_direction, image)
+	
+	distribute_next(source_struct)
+	
+	var trigger_reload = false
+	if location_dropped_at == Vector2i(-1, -1):
+		trigger_reload = true
+		
+	#after dropping image need to check if we have 3 of the same cell adjacent
+	remove_adjacents(location_dropped_at)
+	
+	update_pieces_count_on_board()
+	
+	if (trigger_reload):
+		reset_sound.play(0.0)
+		await get_tree().create_timer(0.6).timeout
+		get_tree().reload_current_scene()
+
+
+
+func remove_adjacents(location_dropped_at: Vector2i):
+	var potential_to_remove =  main_grid.get_consecutives_to_clean(location_dropped_at)
+	if (potential_to_remove.size() >= 3):
+		
+		#timer so we can play some animations
+		await get_tree().create_timer(0.5).timeout
+		
+		for item in potential_to_remove:
+			main_grid.board.set_cell(item, -1) # clears the cell
+		main_grid.check_win()
+
+
+
+func set_input(val:bool):
+	for c_s in click_struct_array:
+		c_s.set_clickability(val)

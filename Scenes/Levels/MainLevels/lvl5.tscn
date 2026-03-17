@@ -12,3 +12,4 @@ piece_inclusion_map = {
 "D": true,
 "E": false
 }
+starting_pieces_queue = Array[String](["B", "C", "D", "B", "A"])

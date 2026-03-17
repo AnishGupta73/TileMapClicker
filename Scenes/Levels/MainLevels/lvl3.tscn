@@ -21,4 +21,6 @@ piece_inclusion_map = {
 "D": false,
 "E": false
 }
+starting_pieces_queue = Array[String](["B", "C", "A"])
+starting_piece_queue_looped = true
 scene_to_change_upon_win = "res://Scenes/Levels/MainLevels/lvl4.tscn"

@@ -6,3 +6,5 @@
 main_grid_size = Vector2i(9, 9)
 click_structs_label = Array[String](["N_3", "E_9", "S_9", "W_9", "N_3"])
 click_structs_locations = Array[Vector2i]([Vector2i(9, 2), Vector2i(18, 3), Vector2i(9, 12), Vector2i(8, 3), Vector2i(15, 2)])
+starting_pieces_queue = Array[String](["A", "C", "E", "D", "A"])
+starting_piece_queue_looped = true
