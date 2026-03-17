@@ -1,15 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://cnrtqsdep2cxq"]
+[gd_scene load_steps=2 format=4 uid="uid://cnrtqsdep2cxq"]
 
 [ext_resource type="PackedScene" uid="uid://cibkepm4ph3eh" path="res://Scenes/Levels/MainLevels/main_level.tscn" id="1_tgkcy"]
 
 [node name="Main" instance=ExtResource("1_tgkcy")]
 level_number = 4
 main_grid_size = Vector2i(7, 7)
-starting_locations = {
-"A": [Vector2i(3, 3)],
-"B": [],
-"C": [],
-"D": [],
+click_structs_label = Array[String](["N_7", "E_7", "S_7", "W_7"])
+click_structs_locations = Array[Vector2i]([Vector2i(10, 3), Vector2i(17, 4), Vector2i(10, 11), Vector2i(9, 4)])
+starting_piece_locations = {
+"A": [Vector2i(2, 2)],
+"B": [Vector2i(2, 4)],
+"C": [Vector2i(4, 2)],
+"D": [Vector2i(4, 4)],
 "E": []
 }
 piece_inclusion_map = {
@@ -17,6 +19,9 @@ piece_inclusion_map = {
 "B": true,
 "C": true,
 "D": true,
-"E": true
+"E": false
 }
 scene_to_change_upon_win = "res://Scenes/Levels/MainLevels/lvl5.tscn"
+
+[node name="BackgroundTileMap" parent="." index="0"]
+tile_map_data = PackedByteArray("AAADAAYAAAAAAAkAAAADAAcAAAAAAAoAAAADAAgAAAAAAAsAAAAEAAYAAAABAAkAAAAEAAcAAAAAAAUAAAAEAAgAAAABAAsAAAAFAAcAAAACAAoAAAAFAAgAAAACAAsAAAAFAAYAAAACAAkAAAANAAcAAAABAAMAAAAMAAYAAAABAAMAAAALAAUAAAABAAMAAAAKAAQAAAABAAMAAAAOAAYAAAABAAMAAAAPAAUAAAABAAMAAAAQAAQAAAABAAMAAAAOAAgAAAABAAMAAAAPAAkAAAABAAMAAAAQAAoAAAABAAMAAAAMAAgAAAABAAMAAAALAAkAAAABAAMAAAAKAAoAAAABAAMAAAAKAAMAAAAEAAUAAAAJAAQAAAAEAAUAAAARAAQAAAAEAAUAAAAKAAsAAAAEAAUAAAA=")

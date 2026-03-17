@@ -76,11 +76,22 @@ bg_color = Color(0, 0, 0, 0)
 
 [node name="Main" instance=ExtResource("1_jmr45")]
 script = ExtResource("2_o8ev7")
-click_struct_map = {
-"E": false,
-"N": true,
-"S": false,
-"W": false
+main_grid_size = Vector2i(3, 3)
+click_structs_label = Array[String](["N_3"])
+click_structs_locations = Array[Vector2i]([Vector2i(12, 5)])
+starting_piece_locations = {
+"A": [],
+"B": [],
+"C": [],
+"D": [],
+"E": []
+}
+piece_inclusion_map = {
+"A": true,
+"B": true,
+"C": false,
+"D": false,
+"E": false
 }
 
 [node name="MainTileMap" parent="." index="1"]

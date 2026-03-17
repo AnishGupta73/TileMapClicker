@@ -5,16 +5,12 @@
 [node name="Main" instance=ExtResource("1_tleta")]
 level_number = 3
 main_grid_size = Vector2i(5, 5)
-click_struct_map = {
-"E": true,
-"N": true,
-"S": false,
-"W": true
-}
-starting_locations = {
-"A": [Vector2i(1, 2)],
-"B": [Vector2i(3, 2)],
-"C": [Vector2i(2, 2)],
+click_structs_label = Array[String](["N_5", "E_5", "W_5"])
+click_structs_locations = Array[Vector2i]([Vector2i(11, 4), Vector2i(16, 5), Vector2i(10, 5)])
+starting_piece_locations = {
+"A": [Vector2i(1, 4)],
+"B": [Vector2i(2, 2)],
+"C": [Vector2i(3, 4)],
 "D": [],
 "E": []
 }

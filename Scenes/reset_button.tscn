@@ -93,7 +93,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="ResetButton" type="Control"]
+[node name="MainButton" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -102,11 +102,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_f7upo")
 
-[node name="ResetAnimation" type="AnimatedSprite2D" parent="."]
+[node name="MainAnimation" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3jpj0")
 animation = &"turn"
 
-[node name="ResetButton" type="Button" parent="ResetAnimation"]
+[node name="ResetButton" type="Button" parent="MainAnimation"]
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 8.0
@@ -147,8 +147,8 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_0fuqg")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ll5te")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="mouse_entered" from="ResetAnimation/ResetButton" to="." method="_on_reset_button_mouse_entered"]
-[connection signal="mouse_exited" from="ResetAnimation/ResetButton" to="." method="_on_reset_button_mouse_exited"]
-[connection signal="pressed" from="ResetAnimation/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="mouse_entered" from="MainAnimation/ResetButton" to="." method="_on_reset_button_mouse_entered"]
+[connection signal="mouse_exited" from="MainAnimation/ResetButton" to="." method="_on_reset_button_mouse_exited"]
+[connection signal="pressed" from="MainAnimation/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="ConfirmAnimation/ConfirmButton" to="." method="_on_confirm_button_pressed"]
 [connection signal="pressed" from="CancelAnimation/CancelButton" to="." method="_on_cancel_button_pressed"]

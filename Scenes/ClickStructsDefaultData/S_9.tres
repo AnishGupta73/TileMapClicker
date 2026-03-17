@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ClickStructData" load_steps=2 format=3 uid="uid://bq41fj1ff7jp6"]
+
+[ext_resource type="Script" uid="uid://m5al70u5hlci" path="res://Scripts/click_struct_data.gd" id="1_65e62"]
+
+[resource]
+script = ExtResource("1_65e62")
+group = "S"
+length = 9
+location = Vector2i(9, 12)
+metadata/_custom_type_script = "uid://m5al70u5hlci"

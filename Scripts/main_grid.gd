@@ -3,6 +3,7 @@ extends Node2D
 var x_size: int
 var y_size: int
 
+var grid_global_location
 # Grid is layer of the background
 # Board is the layer of the pieces
 var background: TileMapLayer
@@ -56,11 +57,12 @@ func set_board_cell(grid_location:Vector2i, new_image:Vector2i):
 
 
 
-func dropped_image(index:Vector2i, direction:Vector2i, image_dropped: Vector2i):
-	var current_cell_location = index + direction
+func dropped_image(location_clicked:Vector2i, direction:Vector2i, image_dropped: Vector2i):
+	var current_cell_location = (location_clicked - grid_global_location) + direction
 	
 	# Lose the game if u drop in a line that cant take more
 	if (get_board_cell(current_cell_location) != Vector2i(-1, -1)):
+		print("no board cell")
 		return Vector2i(-1, -1)
 		
 	# x_size for vertical scanning

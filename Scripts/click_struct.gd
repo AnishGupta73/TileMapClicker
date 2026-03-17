@@ -1,7 +1,9 @@
 extends Node2D
+class_name ClickStruct
 
 var click_cell_inst : PackedScene = preload("res://Scenes/click_cell.tscn")
 var group: String
+var growth_dir : Vector2i
 var drop_dir: Vector2i
 var click_cell_array: Array
 var struct_size: int
@@ -9,24 +11,35 @@ var struct_size: int
 var cell_background_img: Vector2i = Vector2i(1, 2)
 var cell_tile_image: Vector2i = Vector2i(1, 0)
 
-signal triggered_click(group:String, source_idx:int, drop_direction:Vector2i, image:Vector2i)
+signal triggered_click(struct:ClickStruct, source_idx:int, drop_direction:Vector2i, image:Vector2i)
 
 
-func generate_Struct(size:int, group_to_set:String, growth_dir: Vector2i, drop_dir_to_set: Vector2i):
+func generate_Struct(group_to_set:String, size:int):
 	group = group_to_set
+	
+	# Background image for the cells, Drop direction,  and growth direction can be interpreted from group
 	match group:
 		"N":
 			cell_background_img = Vector2i(1, 2)
+			growth_dir = Vector2i(1, 0)
+			drop_dir = Vector2i(0, 1)
 		"S":
 			cell_background_img = Vector2i(1, 4)
+			growth_dir = Vector2i(1, 0)
+			drop_dir = Vector2i(0, -1)
 		"E":
 			cell_background_img = Vector2i(2, 3)
+			growth_dir = Vector2i(0, 1)
+			drop_dir = Vector2i(-1, 0)
 		"W":
 			cell_background_img = Vector2i(0, 3)
-	drop_dir = drop_dir_to_set
-	var instance
+			growth_dir = Vector2i(0, 1)
+			drop_dir = Vector2i(1, 0)
 	
+	
+	# Get the cells
 	struct_size = size
+	var instance
 	for i in range(size):
 		instance = grab_instance()
 		instance.position = Vector2(Vector2i(0, 0) + 16 * i * growth_dir)
@@ -72,4 +85,4 @@ func cell_exited(source:Node):
 func cell_clicked(source:Node):
 	var index_in_group = click_cell_array.find(source)
 	
-	triggered_click.emit(group, index_in_group, drop_dir, cell_tile_image)
+	triggered_click.emit(self, index_in_group, drop_dir, cell_tile_image)

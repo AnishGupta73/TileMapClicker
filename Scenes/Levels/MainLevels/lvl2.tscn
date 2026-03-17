@@ -5,13 +5,11 @@
 [node name="Main" instance=ExtResource("1_55ff1")]
 level_number = 2
 main_grid_size = Vector2i(5, 5)
-click_struct_map = {
-"E": false,
-"N": true,
-"S": false,
-"W": false
-}
-starting_locations = {
+click_structs_label = Array[String](["N_5"])
+click_structs_locations = Array[Vector2i]([Vector2i(11, 4)])
+starting_piece_locations = {
+"A": [],
+"B": [],
 "C": [Vector2i(2, 4)],
 "D": [Vector2i(2, 2)],
 "E": []

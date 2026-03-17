@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://dq4pifrep5nnr" path="res://Assets/Sounds/JDSherbert - Ultimate UI SFX Pack (FREE)/Mono/mp3/JDSherbert - Ultimate UI SFX Pack - Popup Close - 1.mp3" id="5_4hpmc"]
 [ext_resource type="AudioStream" uid="uid://dj6d3nc5kjqs4" path="res://Assets/Sounds/JDSherbert - Ultimate UI SFX Pack (FREE)/Mono/mp3/JDSherbert - Ultimate UI SFX Pack - Popup Open - 1.mp3" id="6_a1yob"]
 [ext_resource type="PackedScene" uid="uid://cjjmxi0254j60" path="res://Scenes/reset_button.tscn" id="7_syfux"]
+[ext_resource type="PackedScene" uid="uid://m0l6flb10axg" path="res://Scenes/exit_button.tscn" id="8_aiw4g"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0xm2m"]
 texture = ExtResource("2_a2ia3")
@@ -338,18 +339,8 @@ texture = ExtResource("2_a2ia3")
 [sub_resource type="TileSet" id="TileSet_h2yge"]
 sources/0 = SubResource("TileSetAtlasSource_0xm2m")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbrl8"]
-bg_color = Color(0, 0, 0, 0)
-
 [node name="Main" type="Node2D"]
 script = ExtResource("1_qbrl8")
-piece_inclusion_map = {
-"A": true,
-"B": true,
-"C": false,
-"D": false,
-"E": false
-}
 
 [node name="BackgroundTileMap" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAADAAYAAAAAAAkAAAADAAcAAAAAAAoAAAADAAgAAAAAAAsAAAAEAAYAAAABAAkAAAAEAAcAAAAAAAUAAAAEAAgAAAABAAsAAAAFAAcAAAACAAoAAAAFAAgAAAACAAsAAAAFAAYAAAACAAkAAAANAAcAAAABAAMAAAA=")
@@ -366,19 +357,17 @@ anchors_preset = 0
 offset_right = 336.0
 offset_bottom = 240.0
 
-[node name="LevelIndicator" type="TextEdit" parent="Control"]
-layout_mode = 0
-offset_right = 128.0
+[node name="LevelIndicator" type="RichTextLabel" parent="Control"]
+layout_mode = 2
+offset_top = 8.0
+offset_right = 336.0
 offset_bottom = 24.0
-theme_override_colors/font_readonly_color = Color(1, 1, 1, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("4_qbrl8")
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_qbrl8")
-theme_override_styles/focus = SubResource("StyleBoxFlat_qbrl8")
-theme_override_styles/read_only = SubResource("StyleBoxFlat_qbrl8")
-placeholder_text = "Level"
-editable = false
+grow_horizontal = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("4_qbrl8")
+theme_override_font_sizes/normal_font_size = 16
+text = "Level"
+horizontal_alignment = 1
 
 [node name="ResetSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_4hpmc")
@@ -390,4 +379,10 @@ stream = ExtResource("6_a1yob")
 offset_left = 320.0
 offset_top = 16.0
 offset_right = 320.0
+offset_bottom = 16.0
+
+[node name="ExitButton" parent="." instance=ExtResource("8_aiw4g")]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 16.0
 offset_bottom = 16.0

@@ -1,24 +1,25 @@
 extends Control
 
-var reset_animation : AnimatedSprite2D
+var main_animation : AnimatedSprite2D
 var confirm_animation : AnimatedSprite2D
 var cancel_animation : AnimatedSprite2D
 
 var current_visibility : bool = false
 
 func _on_ready() -> void:
-	reset_animation = $ResetAnimation
+	main_animation = $MainAnimation
 	confirm_animation = $ConfirmAnimation
 	cancel_animation = $CancelAnimation
 
 
 func _on_reset_button_mouse_entered() -> void:
-	reset_animation.play("turn")
+	var anim_names = main_animation.sprite_frames.get_animation_names()
+	main_animation.play(anim_names[0])
 
 
 func _on_reset_button_mouse_exited() -> void:
-	await reset_animation.animation_looped
-	reset_animation.stop()
+	await main_animation.animation_looped
+	main_animation.stop()
 
 
 func _on_reset_button_pressed() -> void:

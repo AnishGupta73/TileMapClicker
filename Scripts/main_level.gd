@@ -6,19 +6,17 @@ extends Node2D
 # Main Grid vars
 @export var main_grid_size: Vector2i = Vector2i(0, 0)
 
-@export var main_grid_location = Vector2i(13, 7)
+@export var main_grid_center = Vector2i(13, 7)
 var main_grid_inst : PackedScene = preload("res://Scenes/main_grid.tscn")
 var main_grid
 
-@export var click_struct_map = {
-	"N": true,
-	"S": true,
-	"E": true,
-	"W": true
-}
+# labels are:  group + "_" + length
+@export var click_structs_label : Array[String] = ["N_9", "E_9", "S_9", "W_9"]
 
-@export var starting_locations = {
-	"A": [Vector2i(5, 5)],
+@export var click_structs_locations : Array[Vector2i] = [Vector2i(9, 2), Vector2i(18, 3), Vector2i(9, 12), Vector2i(8, 3)]
+
+@export var starting_piece_locations = {
+	"A": [Vector2i(4, 4)],
 	"B": [],
 	"C": [],
 	"D": [],
@@ -67,7 +65,8 @@ func _ready() -> void:
 	main_grid = main_grid_inst.instantiate()
 	add_child(main_grid)
 	main_grid.generate_grid(main_grid_size[0], main_grid_size[1])
-	main_grid.position = Vector2(16*(main_grid_location - Vector2i(main_grid_size[0]/2, main_grid_size[1]/2)))
+	main_grid.position = Vector2(16*(main_grid_center - Vector2i(main_grid_size[0]/2, main_grid_size[1]/2)))
+	main_grid.grid_global_location = Vector2i(main_grid.position / 16)
 	main_grid.has_won.connect(_on_has_won)
 	
 	main_tile_map = $MainTileMap
@@ -89,33 +88,23 @@ func _ready() -> void:
 	distribute_queue_starting()
 
 func set_up_click_structs():
-	var group_growth_drop_pos_map = {
-		"N": ["N", Vector2i(1, 0), Vector2i(0, 1), 16*Vector2(0, -1)],
-		"S": ["S", Vector2i(1, 0), Vector2i(0, -1), 16*Vector2(0, main_grid_size[1])],
-		"E": ["E", Vector2i(0, 1), Vector2i(-1, 0), 16*Vector2(main_grid_size[0], 0)],
-		"W": ["W", Vector2i(0, 1), Vector2i(1, 0), 16*Vector2(-1, 0)]
-	}
-	
-	for key in click_struct_map.keys():
-		if (click_struct_map[key]):
-			var inst = click_struct_inst.instantiate()
-			add_child(inst)
-			
-			var struct_length = 0
-			if (key == "N" or key == "S"):
-				struct_length = main_grid_size[0]
-			elif (key == "E" or key == "W"):
-				struct_length = main_grid_size[1]
-			
-			inst.generate_Struct(struct_length, 
-								group_growth_drop_pos_map[key][0], 
-								group_growth_drop_pos_map[key][1], 
-								group_growth_drop_pos_map[key][2])
-			inst.position = main_grid.position + group_growth_drop_pos_map[key][3]
-			
-			inst.triggered_click.connect(_on_triggered_click)
-			
-			click_struct_array.append(inst)
+	for i in range(click_structs_label.size()):
+		var click_struct_name = click_structs_label[i]
+		var click_struct_loc = click_structs_locations[i]
+		var inst = click_struct_inst.instantiate()
+		add_child(inst)
+		
+		var parts = click_struct_name.split("_")
+		inst.generate_Struct(
+			parts[0],
+			int(parts[1])
+		)
+		inst.position = 16*click_struct_loc
+		
+		inst.triggered_click.connect(_on_triggered_click)
+		
+		click_struct_array.append(inst)
+		
 
 func set_up_pieces():	
 	for key in piece_inclusion_map.keys():
@@ -126,9 +115,9 @@ func set_up_pieces():
 
 
 func set_up_board():
-	for key in starting_locations.keys():
+	for key in starting_piece_locations.keys():
 		if (current_pieces.keys().has(key)):
-			for loc in starting_locations[key]:
+			for loc in starting_piece_locations[key]:
 				main_grid.set_board_cell(loc, current_pieces[key])
 
 
@@ -142,25 +131,10 @@ func set_input(val:bool):
 	for c_s in click_struct_array:
 		c_s.set_clickability(val)
 
-func _on_triggered_click(group:String, source_idx:int, drop_direction:Vector2i, image:Vector2i):
-	var location_dropped_at: Vector2i
+func _on_triggered_click(source_struct : ClickStruct, source_idx:int, drop_direction:Vector2i, image:Vector2i):
+	var location_dropped_at = main_grid.dropped_image(Vector2i(source_struct.position / 16) + (source_idx * source_struct.growth_dir), drop_direction, image)
 	
-	match group:
-		"N":
-			location_dropped_at = main_grid.dropped_image(Vector2i(source_idx, -1), drop_direction, image)
-		"S": 
-			location_dropped_at = main_grid.dropped_image(Vector2i(source_idx, main_grid_size[1]), drop_direction, image)
-		"E":
-			location_dropped_at = main_grid.dropped_image(Vector2i(main_grid_size[0], source_idx), drop_direction, image)
-		"W": 
-			location_dropped_at = main_grid.dropped_image(Vector2i(-1, source_idx), drop_direction, image)
-			
-	var click_struct_just_clicked_on
-	for c_s in click_struct_array:
-		if c_s.group == group:
-			click_struct_just_clicked_on = c_s
-	
-	distribute_next(click_struct_just_clicked_on, source_idx)
+	distribute_next(source_struct)
 	
 	var trigger_reload = false
 	if location_dropped_at == Vector2i(-1, -1):
@@ -224,8 +198,6 @@ func get_next_pieces_queue():
 	next_piece_queue = next_pieces_unshuffled
 
 func distribute_queue_starting():
-	var x_size = main_grid_size[0]
-	var y_size = main_grid_size[1]
 	var piece_to_assign
 	
 	for click_struct in click_struct_array:
@@ -236,14 +208,13 @@ func distribute_queue_starting():
 	piece_to_assign = next_piece_queue.pop_front()
 	main_tile_map.set_cell(next_piece_indicator_location, 0, current_pieces[piece_to_assign])
 	
-func distribute_next(next_click_struct, source_idx):
+func distribute_next(next_click_struct):
 	var piece_to_assign_struct = main_tile_map.get_cell_atlas_coords(next_piece_indicator_location)
 	var vals = current_pieces.values()
 	var keys = current_pieces.keys()
 	
 	var piece_to_assign = keys[vals.find(piece_to_assign_struct)]
 	next_click_struct.update_cells_tile_image(current_pieces[piece_to_assign], piece_to_assign)
-	#next_click_struct.cell_entered(next_click_struct.click_cell_array[source_idx]) -> should happen after disappearing timer in triggered click
 	
 	if next_piece_queue.size() <= 0:
 		get_next_pieces_queue()

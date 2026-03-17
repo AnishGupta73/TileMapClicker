@@ -1,4 +1,5 @@
 extends Node2D
+class_name ClickCell
 
 var button: Button
 var background_image: TileMapLayer
@@ -8,9 +9,9 @@ var audio_player: AudioStreamPlayer2D
 
 var can_click: bool
 
-signal mouse_entered_cell(source: Node)
-signal mouse_exited_cell(source: Node)
-signal mouse_clicked_cell(source: Node)
+signal mouse_entered_cell(source: ClickCell)
+signal mouse_exited_cell(source: ClickCell)
+signal mouse_clicked_cell(source: ClickCell)
 
 
 func _ready() -> void:

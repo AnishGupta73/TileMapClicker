@@ -43,8 +43,8 @@ func next_script():
 	script_part += 1
 	text_boxes[script_part % text_boxes.size()].visible = true
 	
-func _on_triggered_click(group:String, source_idx:int, drop_direction:Vector2i, image:Vector2i):
-	super(group, source_idx, drop_direction, image)
+func _on_triggered_click(source_struct : ClickStruct, source_idx:int, drop_direction:Vector2i, image:Vector2i):
+	super(source_struct, source_idx, drop_direction, image)
 	
 	if (script_part == 0):
 		$Down.visible = false
