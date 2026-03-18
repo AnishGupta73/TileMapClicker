@@ -1,0 +1,54 @@
+[gd_scene load_steps=10 format=3 uid="uid://bnufahu26ed62"]
+
+[sub_resource type="Curve" id="Curve_htoe6"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.48564, 0.546053), -2.12448, -2.12448, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_nyfu0"]
+curve = SubResource("Curve_htoe6")
+
+[sub_resource type="Gradient" id="Gradient_htoe6"]
+colors = PackedColorArray(0.785785, 0.878794, 1, 1, 0.227451, 0.176471, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nyfu0"]
+gradient = SubResource("Gradient_htoe6")
+
+[sub_resource type="Curve" id="Curve_fn44d"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.77171, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_6p1op"]
+curve_x = SubResource("Curve_fn44d")
+
+[sub_resource type="Curve" id="Curve_nyfu0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.14967, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fn44d"]
+curve = SubResource("Curve_nyfu0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5bnib"]
+particle_flag_disable_z = true
+direction = Vector3(1, -1, 0)
+spread = 30.0
+initial_velocity_max = 50.0
+directional_velocity_min = 1.0
+directional_velocity_max = 1.0
+directional_velocity_curve = SubResource("CurveXYZTexture_6p1op")
+gravity = Vector3(0, 70, 0)
+scale_curve = SubResource("CurveTexture_fn44d")
+color = Color(0.587007, 0.767235, 1, 1)
+color_ramp = SubResource("GradientTexture1D_nyfu0")
+alpha_curve = SubResource("CurveTexture_nyfu0")
+
+[node name="TestingWaterParticle" type="Node2D"]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(160, 120)
+amount = 50
+explosiveness = 1.0
+visibility_rect = Rect2(-8, -8, 16, 16)
+process_material = SubResource("ParticleProcessMaterial_5bnib")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="GPUParticles2D"]
+visible = false

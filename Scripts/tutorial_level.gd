@@ -19,16 +19,16 @@ func _ready() -> void:
 	
 	$Control/LevelIndicator.text = "Tutorial 1"
 	
-	#Just the top one
-	set_up_click_structs()
-	
-	set_up_pieces()
-	set_up_board()
-	update_pieces_count_on_board()
-	
-	get_next_pieces_queue()
-	distribute_queue_starting()
-	
+	##Just the top one
+	#set_up_click_structs()
+	#
+	#set_up_pieces()
+	#set_up_board()
+	#update_pieces_count_on_board()
+	#
+	#get_next_pieces_queue()
+	#distribute_queue_starting()
+	#
 	script_set_up()
 
 
