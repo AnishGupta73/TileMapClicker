@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://m0l6flb10axg"]
+
+[ext_resource type="PackedScene" uid="uid://cjjmxi0254j60" path="res://Scenes/UI/reset_button.tscn" id="1_8cssy"]
+[ext_resource type="Script" uid="uid://c7r8w2nsfrqae" path="res://Scripts/exit_button.gd" id="2_4uncf"]
+[ext_resource type="Texture2D" uid="uid://c0y0vrvveqxw8" path="res://Assets/Art/ResetButtonIcon.png" id="2_eap2n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8ruc"]
+atlas = ExtResource("2_eap2n")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eap2n"]
+atlas = ExtResource("2_eap2n")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4uncf"]
+atlas = ExtResource("2_eap2n")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cs8ew"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8ruc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eap2n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8ruc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4uncf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8ruc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8ruc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8ruc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8ruc")
+}],
+"loop": true,
+"name": &"exit",
+"speed": 10.0
+}]
+
+[node name="ExitButton" instance=ExtResource("1_8cssy")]
+script = ExtResource("2_4uncf")
+
+[node name="MainAnimation" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_cs8ew")
+animation = &"exit"
+frame_progress = 0.258377
+
+[connection signal="mouse_entered" from="MainAnimation/ResetButton" to="." method="_on_exit_button_mouse_entered"]
+[connection signal="mouse_exited" from="MainAnimation/ResetButton" to="." method="_on_exit_button_mouse_exited"]
+[connection signal="pressed" from="MainAnimation/ResetButton" to="." method="_on_exit_button_pressed"]

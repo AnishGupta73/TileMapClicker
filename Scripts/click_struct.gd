@@ -1,7 +1,7 @@
 extends Node2D
 class_name ClickStruct
 
-var click_cell_inst : PackedScene = preload("res://Scenes/click_cell.tscn")
+var click_cell_inst : PackedScene = preload("res://Scenes/Clicks/click_cell.tscn")
 var group: String
 var growth_dir : Vector2i
 var drop_dir: Vector2i

@@ -1,0 +1,154 @@
+[gd_scene load_steps=16 format=3 uid="uid://cjjmxi0254j60"]
+
+[ext_resource type="Script" uid="uid://c5sjxkevige8o" path="res://Scripts/reset_button.gd" id="1_f7upo"]
+[ext_resource type="Texture2D" uid="uid://c0y0vrvveqxw8" path="res://Assets/Art/ResetButtonIcon.png" id="2_cl2r1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fuqg"]
+atlas = ExtResource("2_cl2r1")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ll5te"]
+atlas = ExtResource("2_cl2r1")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lw6aa"]
+atlas = ExtResource("2_cl2r1")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6cv7k"]
+atlas = ExtResource("2_cl2r1")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3jpj0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fuqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ll5te")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lw6aa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6cv7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fuqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fuqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fuqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fuqg")
+}],
+"loop": true,
+"name": &"turn",
+"speed": 10.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qisyo"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_emgp1"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fuqg"]
+bg_color = Color(1, 1, 1, 0.196078)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ll5te"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7upo"]
+atlas = ExtResource("2_cl2r1")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cl2r1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f7upo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cl2r1"]
+atlas = ExtResource("2_cl2r1")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_88t2b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cl2r1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="MainButton" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f7upo")
+
+[node name="MainAnimation" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_3jpj0")
+animation = &"turn"
+
+[node name="ResetButton" type="Button" parent="MainAnimation"]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_styles/focus = SubResource("StyleBoxFlat_qisyo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_emgp1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0fuqg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ll5te")
+
+[node name="ConfirmAnimation" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(0, 16)
+sprite_frames = SubResource("SpriteFrames_cl2r1")
+
+[node name="ConfirmButton" type="Button" parent="ConfirmAnimation"]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_styles/focus = SubResource("StyleBoxFlat_qisyo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_emgp1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0fuqg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ll5te")
+
+[node name="CancelAnimation" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(0, 32)
+sprite_frames = SubResource("SpriteFrames_88t2b")
+
+[node name="CancelButton" type="Button" parent="CancelAnimation"]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_styles/focus = SubResource("StyleBoxFlat_qisyo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_emgp1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0fuqg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ll5te")
+
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="mouse_entered" from="MainAnimation/ResetButton" to="." method="_on_reset_button_mouse_entered"]
+[connection signal="mouse_exited" from="MainAnimation/ResetButton" to="." method="_on_reset_button_mouse_exited"]
+[connection signal="pressed" from="MainAnimation/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="ConfirmAnimation/ConfirmButton" to="." method="_on_confirm_button_pressed"]
+[connection signal="pressed" from="CancelAnimation/CancelButton" to="." method="_on_cancel_button_pressed"]

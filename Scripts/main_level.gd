@@ -24,7 +24,7 @@ var main_grid
 }
 
 # Click Struct vars
-var click_struct_inst : PackedScene = preload("res://Scenes/click_struct.tscn")
+var click_struct_inst : PackedScene = preload("res://Scenes/Clicks/click_struct.tscn")
 var click_struct_array : Array
 
 # Piece Indicator vars
@@ -220,7 +220,16 @@ func distribute_next(next_click_struct):
 func _on_has_won():
 	next_sound.play(0.0)
 	await get_tree().create_timer(0.5).timeout
-	get_tree().change_scene_to_file(scene_to_change_upon_win)
+	
+	for c_s in click_struct_array:
+		c_s.set_clickability(false)
+		
+	var pop_up_scene = load("res://Scenes/UI/pop_up.tscn")
+	var pop_up_inst = pop_up_scene.instantiate()
+	pop_up_inst.next_level_file = scene_to_change_upon_win
+	get_parent().add_child(pop_up_inst)
+	
+	#get_tree().change_scene_to_file(scene_to_change_upon_win)
 
 
 

@@ -1,0 +1,128 @@
+[gd_scene load_steps=7 format=3 uid="uid://dpc7k2lgxfn8w"]
+
+[ext_resource type="FontFile" uid="uid://d3usbugkejteb" path="res://Assets/fonts/PixelOperator8.ttf" id="1_81u6v"]
+[ext_resource type="Script" uid="uid://dneep2nyv6ob3" path="res://Scripts/pop_up.gd" id="1_frtgr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_frtgr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_78v68"]
+bg_color = Color(0.783523, 0.783523, 0.783523, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l3im5"]
+bg_color = Color(0.589096, 0.589096, 0.589096, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mdjqo"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_size = 4
+
+[node name="PopUp" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_frtgr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.501407, 0.501406, 0.501406, 0.588235)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+offset_left = 48.0
+offset_top = 120.0
+offset_right = 288.0
+offset_bottom = 156.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="MainMenu" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_81u6v")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/focus = SubResource("StyleBoxEmpty_frtgr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_78v68")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l3im5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mdjqo")
+text = "Menu
+"
+
+[node name="LevelSelect" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_81u6v")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/focus = SubResource("StyleBoxEmpty_frtgr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_78v68")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l3im5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mdjqo")
+text = "Levels"
+
+[node name="NextLevel" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_81u6v")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/focus = SubResource("StyleBoxEmpty_frtgr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_78v68")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l3im5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mdjqo")
+text = "Next"
+
+[node name="LevelIndicator" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 32.0
+offset_bottom = -176.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("1_81u6v")
+theme_override_font_sizes/normal_font_size = 24
+text = "Complete"
+horizontal_alignment = 1
+
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="pressed" from="HBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="HBoxContainer/LevelSelect" to="." method="_on_level_select_pressed"]
+[connection signal="pressed" from="HBoxContainer/NextLevel" to="." method="_on_next_level_pressed"]
